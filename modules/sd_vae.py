@@ -3,6 +3,7 @@ import collections
 from modules import paths, shared, devices, script_callbacks, sd_models
 import glob
 from copy import deepcopy
+from collections import OrderedDict
 
 
 vae_path = os.path.abspath(os.path.join(paths.models_path, "VAE"))
@@ -50,6 +51,7 @@ def get_filename(filepath):
 
 
 def refresh_vae_list():
+    global vae_dict
     vae_dict.clear()
 
     paths = [
@@ -82,6 +84,8 @@ def refresh_vae_list():
     for filepath in candidates:
         name = get_filename(filepath)
         vae_dict[name] = filepath
+
+    vae_dict = OrderedDict(sorted(vae_dict.items()))
 
 
 def find_vae_near_checkpoint(checkpoint_file):
